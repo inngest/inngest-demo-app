@@ -4,6 +4,7 @@
   "description": "An app for local development testing",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "nodemon --exec 'ts-node -r dotenv/config index.ts'",
     "send": "ts-node -r dotenv/config ./scripts/sendEvents.ts"
   },
