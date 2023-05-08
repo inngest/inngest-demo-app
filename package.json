@@ -1,6 +1,6 @@
 {
   "name": "inngest-test-app",
-  "version": "1.0.0",
+  "version": "1.8.1-beta.1",
   "description": "An app for local development testing",
   "main": "index.js",
   "scripts": {
