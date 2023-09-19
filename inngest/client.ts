@@ -1,7 +1,8 @@
-import { Inngest } from "inngest";
+import { Inngest, EventSchemas } from 'inngest';
 
-import type { Events } from "./events";
+import type { Events } from './events';
 
-export const inngest = new Inngest<Events>({
-  name: "Demo App",
+export const inngest = new Inngest({
+  name: 'Demo App',
+  schemas: new EventSchemas().fromRecord<Events>(),
 });

@@ -1,5 +1,5 @@
 export type AppAccountCreated = {
-  name: "app/account.created";
+  name: 'app/account.created';
   data: {
     email: string;
   };
@@ -9,7 +9,7 @@ export type AppAccountCreated = {
 };
 
 export type BillingPaymentFailed = {
-  name: "billing/payment.failed";
+  name: 'billing/payment.failed';
   data: {
     billingPlan: string;
     paymentId: string;
@@ -21,7 +21,7 @@ export type BillingPaymentFailed = {
 };
 
 export type BillingPaymentSucceeded = {
-  name: "billing/payment.succeeded";
+  name: 'billing/payment.succeeded';
   data: {
     billingPlan: string;
     paymentId: string;
@@ -33,7 +33,7 @@ export type BillingPaymentSucceeded = {
 };
 
 export type BillingSubscriptionStarted = {
-  name: "billing/subscription.started";
+  name: 'billing/subscription.started';
   data: {
     billingPlan: string;
     amount: number;
@@ -44,7 +44,7 @@ export type BillingSubscriptionStarted = {
 };
 
 export type BillingSubscriptionCancelled = {
-  name: "billing/subscription.cancelled";
+  name: 'billing/subscription.cancelled';
   data: {
     billingPlan: string;
     amount: number;
