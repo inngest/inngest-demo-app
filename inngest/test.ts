@@ -14,7 +14,7 @@ export const sendTestEvents = inngest.createFunction(
       // Randomly schedule events across the next 10 minutes
       return generatedEvents.map((evt) => ({
         ...evt,
-        ts: new Date().valueOf() + Math.floor(Math.random() * 60 * 1000),
+        ts: new Date().valueOf() + Math.floor(Math.random() * 10 * 60 * 1000),
       }));
     });
 

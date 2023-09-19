@@ -6,7 +6,7 @@ This app works in the following ways:
 
 1. It has several Inngest functions (w/ and w/out steps)
 2. Some functions throw errors at random to simulate failures
-3. A cron function runs every 2 minutes to send fake events to your local all
+3. A cron function runs every 10 minutes to send fake events to your local app
 
 ## Usage
 
@@ -14,27 +14,25 @@ This app works in the following ways:
 
 ```
 # Install app dependencies
-yarn
+pnpm
 # Run the app in development mode
-yarn dev
+pnpm dev
 # In a separate shell session, run the dev server
 npx inngest-cli@latest dev -u http://localhost:3030/api/inngest
 ```
 
 ### Deploy
 
-```
-# TBD
-```
+This application is deployed to Render automatically on ever push to the `main` branch on Github.
 
 ### Send test events
 
-If you'd like to manually send a bunch of test events, use the `yarn send` command:
+If you'd like to manually send a bunch of test events, use the `pnpm send` command:
 
 ```shell
-yarn send
+pnpm send
 # Send a specific number of events
-yarn send 500
+pnpm send 500
 # Send a specific event type
-yarn send 30 app/account.created
+pnpm send 30 app/account.created
 ```
