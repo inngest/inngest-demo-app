@@ -9,7 +9,7 @@ export function getFunctions() {
   console.log('Get functions', process.env.RENDER_GIT_BRANCH);
   // Only set the cron trigger to run in production, not branch envs
   if (
-    !Boolean(process.env.RENDER_GIT_BRANCH) &&
+    !Boolean(process.env.RENDER_GIT_BRANCH) ||
     process.env.RENDER_GIT_BRANCH === 'main'
   ) {
     console.log('Not a pull request preview, adding test cron');
