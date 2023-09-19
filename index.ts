@@ -5,7 +5,7 @@ import { serve } from 'inngest/express';
 
 dotenv.config();
 
-import { functions, inngest } from './inngest';
+import { getFunctions, inngest } from './inngest';
 
 const PORT = 3030;
 
@@ -15,6 +15,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ success: true });
 });
+
+const functions = getFunctions();
 
 app.use('/api/inngest', serve(inngest, [...functions]));
 
@@ -35,9 +37,19 @@ app.listen(PORT, async () => {
     await sleep(2000);
     try {
       const json = await result.json();
-      console.log(`Register attempted:`, inngestURL, result.status, json);
+      console.log(
+        `Register attempted:`,
+        inngestURL.toString(),
+        result.status,
+        json
+      );
     } catch (err) {
-      console.log(`Register failed:`, inngestURL, result.status, result.body);
+      console.log(
+        `Register failed:`,
+        inngestURL.toString(),
+        result.status,
+        result.body
+      );
     }
   }
 });
