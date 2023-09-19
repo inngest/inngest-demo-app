@@ -29,7 +29,6 @@ app.listen(PORT, async () => {
       method: 'PUT',
     });
     const json = await result.json();
-    console.log(`Register attempted:`);
-    console.log(result.status, json);
+    console.log(`Register attempted:`, result.status, json);
   }
 });
