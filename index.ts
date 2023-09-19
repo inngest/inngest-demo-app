@@ -28,7 +28,18 @@ app.listen(PORT, async () => {
     const result = await fetch(inngestURL, {
       method: 'PUT',
     });
-    const json = await result.json();
-    console.log(`Register attempted:`, result.status, json);
+    await sleep(2000);
+    try {
+      const json = await result.json();
+      console.log(`Register attempted:`, result.status, json);
+    } catch (err) {
+      console.log(`Register failed:`, result.status, result.body);
+    }
   }
 });
+
+function sleep(t: number): Promise<void> {
+  return new Promise((res) => {
+    return setTimeout(res, t);
+  });
+}
