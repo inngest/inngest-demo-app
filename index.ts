@@ -24,6 +24,10 @@ app.listen(PORT, async () => {
 
   // Attempt to self-register the app after deploy
   if (process.env.RENDER_EXTERNAL_URL) {
+    console.log(
+      `Attempting self-register. Functions: `,
+      functions.map((f) => f.name).join(', ')
+    );
     const inngestURL = new URL('/api/inngest', process.env.RENDER_EXTERNAL_URL);
     const result = await fetch(inngestURL, {
       method: 'PUT',
@@ -31,9 +35,9 @@ app.listen(PORT, async () => {
     await sleep(2000);
     try {
       const json = await result.json();
-      console.log(`Register attempted:`, result.status, json);
+      console.log(`Register attempted:`, inngestURL, result.status, json);
     } catch (err) {
-      console.log(`Register failed:`, result.status, result.body);
+      console.log(`Register failed:`, inngestURL, result.status, result.body);
     }
   }
 });
