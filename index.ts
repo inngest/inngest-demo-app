@@ -18,7 +18,14 @@ app.get('/', (req, res) => {
 
 const functions = getFunctions();
 
-app.use('/api/inngest', serve(inngest, [...functions]));
+app.use(
+  '/api/inngest',
+  serve(inngest, [...functions], {
+    signingKey: process.env.IS_PULL_REQUEST
+      ? process.env.INNGEST_BRANCH_SIGNING_KEY
+      : process.env.INNGEST_SIGNING_KEY,
+  })
+);
 
 app.listen(PORT, async () => {
   console.log(`✅ Server started on localhost:${PORT}
