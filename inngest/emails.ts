@@ -21,3 +21,14 @@ export const sendUpgradeEmail = inngest.createFunction(
     };
   }
 );
+
+export const sendChurnEmail = inngest.createFunction(
+  { name: 'Send Churn Email' },
+  { event: 'billing/subscription.cancelled' },
+  async ({ event }) => {
+    return {
+      success: true,
+      message: `churn email sent to user: ${event.user.id}`,
+    };
+  }
+);

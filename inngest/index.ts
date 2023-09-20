@@ -6,7 +6,6 @@ const functions = [...Object.values(emails), ...Object.values(payments)];
 
 // We use a function to do this in order to dynamically add the cron test function
 export function getFunctions() {
-  console.log('Get functions', process.env.RENDER_GIT_BRANCH);
   // Only set the cron trigger to run in production, not branch envs
   if (
     !Boolean(process.env.RENDER_GIT_BRANCH) ||
