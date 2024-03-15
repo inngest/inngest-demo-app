@@ -1,8 +1,15 @@
+import { inngest } from './client';
+import { type AnyInngestFunction } from 'inngest/components/InngestFunction';
+import * as ai from './ai';
 import * as payments from './payments';
 import * as emails from './emails';
 import * as test from './test';
 
-const functions = [...Object.values(emails), ...Object.values(payments)];
+const functions: AnyInngestFunction[] = [
+  ...Object.values(ai),
+  ...Object.values(emails),
+  ...Object.values(payments),
+];
 
 // We use a function to do this in order to dynamically add the cron test function
 export function getFunctions() {

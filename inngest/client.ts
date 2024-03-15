@@ -1,9 +1,9 @@
-import { Inngest, EventSchemas } from 'inngest';
+import { Inngest, EventSchemas, InngestMiddleware } from 'inngest';
 
-import type { Events } from './events';
+import type { EventUnion } from './events';
 
 export const inngest = new Inngest({
-  name: 'Demo App',
-  schemas: new EventSchemas().fromRecord<Events>(),
+  id: 'demo-app',
+  schemas: new EventSchemas().fromUnion<EventUnion>(),
   env: process.env.RENDER_GIT_BRANCH,
 });

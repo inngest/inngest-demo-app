@@ -29,6 +29,7 @@ const EVENTS: EventNames[] = [
   'billing/payment.failed',
   'billing/subscription.started',
   'billing/subscription.cancelled',
+  'ai/summarize.content',
 ];
 
 function createRandomEventData<Evt, T extends EventNames>(
@@ -59,6 +60,11 @@ function createRandomEventData<Evt, T extends EventNames>(
       return {
         billingPlan,
         amount: BILLING_PLANS[billingPlan],
+      };
+    case 'ai/summarize.content':
+      return {
+        content: `${casual.company_name} ${casual.word} ${casual.word}`,
+        transcript: 's3://product-ideas/carber-vac-release.txt',
       };
   }
   throw new Error('Invalid event name');

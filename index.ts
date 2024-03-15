@@ -18,7 +18,13 @@ app.get('/', (req, res) => {
 
 const functions = getFunctions();
 
-app.use('/api/inngest', serve(inngest, [...functions]));
+app.use(
+  '/api/inngest',
+  serve({
+    client: inngest,
+    functions,
+  })
+);
 
 app.listen(PORT, async () => {
   console.log(`✅ Server started on localhost:${PORT}

@@ -54,13 +54,22 @@ export type BillingSubscriptionCancelled = {
   };
 };
 
+export type AISummarizeContent = {
+  name: 'ai/summarize.content';
+  data: {
+    content: string;
+    transcript: string;
+  };
+};
+
 // Scripts use this type externally
 export type EventUnion =
   | AppAccountCreated
   | BillingPaymentFailed
   | BillingPaymentSucceeded
   | BillingSubscriptionStarted
-  | BillingSubscriptionCancelled;
+  | BillingSubscriptionCancelled
+  | AISummarizeContent;
 
 // A simple way to pass events without having to re-type the event name
 type CustomEvents<T extends Record<keyof T, any>> = {
