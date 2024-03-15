@@ -1,11 +1,10 @@
-import { inngest } from './client';
-import { type AnyInngestFunction } from 'inngest/components/InngestFunction';
+// import { type AnyInngestFunction } from 'inngest/components/InngestFunction';
 import * as ai from './ai';
 import * as payments from './payments';
 import * as emails from './emails';
 import * as test from './test';
 
-const functions: AnyInngestFunction[] = [
+const functions = [
   ...Object.values(ai),
   ...Object.values(emails),
   ...Object.values(payments),
