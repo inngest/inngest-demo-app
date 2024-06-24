@@ -90,6 +90,7 @@ export const summarizeContent = inngest.createFunction(
       return casual.sentences(10);
     });
 
+    // We can globally share throttle limited functions like this using invoke
     const completion = await step.invoke('generate-summary-via-gpt-4', {
       function: chatCompletion,
       data: {
