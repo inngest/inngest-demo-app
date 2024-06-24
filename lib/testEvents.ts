@@ -25,11 +25,15 @@ const BILLING_PLANS: Record<string, number> = {
 type EventNames = Pick<EventUnion, 'name'>['name'];
 const EVENTS: EventNames[] = [
   'app/account.created',
-  'billing/payment.succeeded',
+  // 'billing/payment.succeeded',
   'billing/payment.failed',
-  'billing/subscription.started',
-  'billing/subscription.cancelled',
+  // 'billing/subscription.started',
+  // 'billing/subscription.cancelled',
+  'integrations/source.connected',
+  'integrations/source.removed',
+  'integrations/export.requested',
   'ai/summarize.content',
+  'ai/video.uploaded',
 ];
 
 function createRandomEventData<Evt, T extends EventNames>(
@@ -62,6 +66,14 @@ function createRandomEventData<Evt, T extends EventNames>(
         amount: BILLING_PLANS[billingPlan],
       };
     case 'ai/summarize.content':
+      return {
+        content: `${casual.company_name} ${casual.word} ${casual.word}`,
+        transcript: 's3://product-ideas/carber-vac-release.txt',
+      };
+    case 'ai/video.uploaded':
+    case 'integrations/source.connected':
+    case 'integrations/source.removed':
+    case 'integrations/export.requested':
       return {
         content: `${casual.company_name} ${casual.word} ${casual.word}`,
         transcript: 's3://product-ideas/carber-vac-release.txt',

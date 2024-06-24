@@ -54,12 +54,40 @@ export type BillingSubscriptionCancelled = {
   };
 };
 
+export type AIChatCompletion = {
+  name: 'ai/chat.completion';
+  data: {
+    messages: {
+      role: 'system' | 'user' | 'assistant';
+      content: string;
+    }[];
+  };
+};
+
 export type AISummarizeContent = {
   name: 'ai/summarize.content';
   data: {
     content: string;
     transcript: string;
   };
+};
+
+export type AIVideoUploaded = {
+  name: 'ai/video.uploaded';
+  data: {};
+};
+
+export type ImportSourceConnected = {
+  name: 'integrations/source.connected';
+  data: {};
+};
+export type ImportSourceRemoved = {
+  name: 'integrations/source.removed';
+  data: {};
+};
+type ExportRequested = {
+  name: 'integrations/export.requested';
+  data: {};
 };
 
 // Scripts use this type externally
@@ -69,7 +97,12 @@ export type EventUnion =
   | BillingPaymentSucceeded
   | BillingSubscriptionStarted
   | BillingSubscriptionCancelled
-  | AISummarizeContent;
+  | AIChatCompletion
+  | AISummarizeContent
+  | AIVideoUploaded
+  | ImportSourceConnected
+  | ImportSourceRemoved
+  | ExportRequested;
 
 // A simple way to pass events without having to re-type the event name
 type CustomEvents<T extends Record<keyof T, any>> = {
