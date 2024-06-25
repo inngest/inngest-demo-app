@@ -9,8 +9,15 @@ export const sendTestEvents = inngest.createFunction(
 
     console.log('Send test events invoked');
 
-    const events = await step.run('Generate events', () => {
+    // Enable this to spread events out over 10 min
+    // disable this to show events executing all at once
+    const withDelay = false;
+
+    const events = await step.run('generate-events', () => {
       const generatedEvents = createEvents(n);
+      if (!withDelay) {
+        return generatedEvents;
+      }
       // Randomly schedule events across the next 10 minutes
       return generatedEvents.map((evt) => ({
         ...evt,
@@ -18,7 +25,7 @@ export const sendTestEvents = inngest.createFunction(
       }));
     });
 
-    await step.run('Send events', () => send(events));
+    await step.run('send-events', () => send(events));
     return {
       success: true,
       message: `sent ${n} events`,
