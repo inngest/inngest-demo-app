@@ -56,7 +56,10 @@ export const chatCompletion = inngest.createFunction(
 }
 */
 export const summarizeContent = inngest.createFunction(
-  { name: 'Summarize content via GPT-4', id: 'summarize-content' },
+  {
+    name: 'Summarize content via GPT-4',
+    id: 'summarize-content',
+  },
   { event: 'ai/summarize.content' },
   async ({ event, step, attempt }) => {
     const results = await step.run('query-vectordb', async () => {
@@ -172,7 +175,11 @@ export const sourceremoved = inngest.createFunction(
 );
 
 export const exportData = inngest.createFunction(
-  { name: 'Data warehouse sync', id: 'export' },
+  {
+    name: 'Data warehouse sync',
+    id: 'export',
+    debounce: { limit: 1, period: '30s' },
+  },
   { event: 'integrations/export.requested' },
   async ({ event, step, attempt }) => {
     await step.sleep('delay', '2m');

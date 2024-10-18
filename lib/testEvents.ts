@@ -89,24 +89,36 @@ function generateRandomTimestampWithinDays(days = 1): number {
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   ).valueOf();
 }
-
-function createRandomEvent(eventName?: string) {
+type RandomEvent = {
+  name: string;
+  data: any;
+  user?: any;
+  ts?: number;
+};
+function createRandomEvent(eventName?: string, shouldDelay = true) {
   const name: EventNames = eventName || casual.random_element(EVENTS);
   const data = createRandomEventData(name);
-  return {
+  const payload: RandomEvent = {
     name,
-    data,
-    user: {
-      id: casual.random_element(USER_IDS),
+    data: {
+      ...data,
+      userId: casual.random_element(USER_IDS),
     },
-    ts: generateRandomTimestampWithinDays(1),
   };
+  if (shouldDelay) {
+    payload.ts = generateRandomTimestampWithinDays(1);
+  }
+  return payload;
 }
 
-export function createEvents(n: number, eventName?: string) {
+export function createEvents(
+  n: number,
+  eventName?: string,
+  shouldDelay = true
+) {
   const events = [];
   for (let i = 0; i < n; i++) {
-    events.push(createRandomEvent(eventName));
+    events.push(createRandomEvent(eventName, shouldDelay));
   }
   return events;
 }

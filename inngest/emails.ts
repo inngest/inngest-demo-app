@@ -3,12 +3,18 @@ import { inngest } from './client';
 import casual from 'casual';
 
 export const sendWelcomeEmail = inngest.createFunction(
-  { name: 'Send Welcome Email', id: 'send-welcome-email' },
+  {
+    name: 'Send Welcome Email',
+    id: 'send-welcome-email',
+    description: 'Send a welcome email to a new user',
+  },
   { event: 'app/account.created' },
   async ({ event }) => {
     return {
       success: true,
-      message: `welcome email sent to user: ${event.user.id}`,
+      message: `welcome email sent to user: ${
+        event.data.userId || 'undefined'
+      }`,
     };
   }
 );
@@ -19,7 +25,9 @@ export const sendUpgradeEmail = inngest.createFunction(
   async ({ event }) => {
     return {
       success: true,
-      message: `upgrade email sent to user: ${event.user.id}`,
+      message: `upgrade email sent to user: ${
+        event.data.userId || 'undefined'
+      }`,
     };
   }
 );
