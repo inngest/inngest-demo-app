@@ -6,7 +6,6 @@ export const sendWelcomeEmail = inngest.createFunction(
   {
     name: 'Send Welcome Email',
     id: 'send-welcome-email',
-    description: 'Send a welcome email to a new user',
   },
   { event: 'app/account.created' },
   async ({ event }) => {
