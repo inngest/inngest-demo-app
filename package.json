@@ -19,7 +19,7 @@
   "dependencies": {
     "casual": "^1.6.2",
     "dotenv": "^16.0.3",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "inngest": "^3.16.0"
   },
   "devDependencies": {
