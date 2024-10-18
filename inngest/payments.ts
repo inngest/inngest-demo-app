@@ -26,7 +26,7 @@ export const handleFailedPayments = inngest.createFunction(
         throw new Error('Failed to downgrade user');
       }
       return {
-        message: `downgraded user ${event.user.id}`,
+        message: `downgraded user ${event.data.userId || ''}`,
       };
     });
 
