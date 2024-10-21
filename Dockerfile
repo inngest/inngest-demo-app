@@ -5,13 +5,13 @@ FROM root AS builder
 
 WORKDIR /src/
 COPY package*.json *.lock tsconfig.json ./
-RUN yarn
+RUN pnpm install
 COPY . .
-RUN yarn build
+RUN pnpm run build
 
 FROM root
 WORKDIR /dist/
 COPY --from=builder /src /dist/
-RUN yarn --prod
+RUN pnpm install --prod
 EXPOSE 3030
 ENTRYPOINT ["node", "./build/index.js"]

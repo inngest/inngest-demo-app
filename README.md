@@ -16,14 +16,17 @@ This app works in the following ways:
 # Install app dependencies
 pnpm
 # Run the app in development mode
-pnpm dev
+pnpm run dev
 # In a separate shell session, run the dev server
 npx inngest-cli@latest dev -u http://localhost:3030/api/inngest
 ```
 
 ### Deploy
 
-This application is deployed to Render automatically on ever push to the `main` branch on Github.
+This application is deployed to [Render](https://render.com/) automatically on ever push to the `main` branch on Github.
+
+To deploy this yourself, you'll need to set the `INNGEST_EVENT_KEY` and `INNGEST_SIGNING_KEY` environment variables from
+your Inngest.com account.
 
 ### Send test events
 
