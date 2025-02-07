@@ -77,7 +77,10 @@ export type ImportSourceRemoved = {
 };
 type ExportRequested = {
   name: 'integrations/export.requested';
-  data: {};
+  data: {
+    content: string;
+    transcript: string;
+  };
 };
 
 // Scripts use this type externally
