@@ -5,7 +5,11 @@ dotenv.config();
 import { connect } from 'inngest/connect';
 import { getFunctions, inngest } from './inngest/index';
 
-console.log('Worker: connecting');
+const instanceId = process.env.RENDER_INSTANCE_ID || 'local';
+
+console.log(
+  `Worker: connecting (instanceId:${instanceId}, appVersion:${inngest.appVersion})`
+);
 
 connect(inngest, {
   functions: getFunctions(),
