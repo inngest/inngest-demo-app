@@ -12,11 +12,7 @@ console.log(
   `Worker: connecting (instanceId:${instanceId}, appVersion:${inngest.appVersion})`
 );
 
-console.log(
-  'DEBUG',
-  process.env.INNGEST_SIGNING_KEY,
-  process.env.INNGEST_EVENT_KEY
-);
+console.log('DEBUG', inngest.apiBaseUrl, inngest.eventBaseUrl);
 
 const PORT = 3030;
 
