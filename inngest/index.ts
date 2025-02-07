@@ -17,10 +17,12 @@ export function getFunctions() {
   if (
     !Boolean(process.env.RENDER_GIT_BRANCH) ||
     process.env.RENDER_GIT_BRANCH === 'main' ||
-    process.env.RENDER_GIT_COMMIT === 'staging'
+    process.env.RENDER_GIT_BRANCH === 'staging'
   ) {
     console.log('Not a pull request preview, adding test cron');
     functions.push(...Object.values(test));
+  } else {
+    console.log('Pull request preview detected, not adding test cron');
   }
   return functions;
 }
