@@ -13,5 +13,5 @@ FROM root
 WORKDIR /dist/
 COPY --from=builder /src /dist/
 RUN pnpm install --prod
-# EXPOSE 3030
+EXPOSE 3030
 ENTRYPOINT ["node", "./build/worker.js"]
