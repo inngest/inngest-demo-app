@@ -5,6 +5,8 @@ import type { EventUnion } from './events';
 export const inngest = new Inngest({
   id: 'demo-app',
   schemas: new EventSchemas().fromUnion<EventUnion>(),
-  env: process.env.RENDER_GIT_BRANCH,
+  env: ['main', 'staging'].includes(process.env.RENDER_GIT_BRANCH)
+    ? null
+    : process.env.RENDER_GIT_BRANCH,
   appVersion: process.env.RENDER_GIT_COMMIT || 'local',
 });
