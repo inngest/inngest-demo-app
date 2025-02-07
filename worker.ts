@@ -9,6 +9,7 @@ console.log('Worker: connecting');
 
 connect(inngest, {
   functions: getFunctions(),
+  instanceId: process.env.RENDER_INSTANCE_ID || 'local',
 }).then((connection) => {
   console.log('Worker: connected');
   connection.closed.then(() => {
