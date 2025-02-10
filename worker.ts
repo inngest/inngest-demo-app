@@ -16,8 +16,8 @@ console.log(
   'DEBUG',
   inngest.apiBaseUrl,
   inngest.eventBaseUrl,
-  inngest['eventKeySet'],
-  inngest['eventKeySet']
+  process.env.INNGEST_SIGNING_KEY,
+  process.env.INNGEST_EVENT_KEY
 );
 
 const PORT = 3030;
@@ -48,7 +48,6 @@ function main() {
     console.log('Worker: failed to connect', err);
   });
 
-  console.log('DEBUG', c['options'], c['_hashedSigningKey']);
   // Start the server for health checks
   app.listen(PORT, async () => {
     console.log(`✅ Server started on localhost:${PORT}`);

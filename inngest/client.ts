@@ -13,4 +13,6 @@ export const inngest = new Inngest({
   schemas: new EventSchemas().fromUnion<EventUnion>(),
   // env,
   appVersion: process.env.RENDER_GIT_COMMIT || 'local',
+  signingKey: process.env.INNGEST_SIGNING_KEY,
+  eventKey: process.env.INNGEST_EVENT_KEY,
 });
