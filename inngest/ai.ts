@@ -178,7 +178,7 @@ export const exportData = inngest.createFunction(
   {
     name: 'Data warehouse sync',
     id: 'export',
-    debounce: { limit: 1, period: '30s' },
+    debounce: { key: 'event.data.transcript', period: '30s' },
   },
   { event: 'integrations/export.requested' },
   async ({ event, step, attempt }) => {

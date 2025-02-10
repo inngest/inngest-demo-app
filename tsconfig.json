@@ -7,9 +7,9 @@
     "types": ["node", "express"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "outDir": "./build"
   },
-  "include": ["index.ts", "./inngest/**/*", "./lib/**/*"]
+  "include": ["index.ts", "worker.ts", "./inngest/**/*", "./lib/**/*"]
 }

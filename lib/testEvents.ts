@@ -1,4 +1,4 @@
-import { inngest } from '../inngest';
+import { inngest } from '../inngest/index';
 import type { EventUnion, Events } from '../inngest/events';
 import casual from 'casual';
 
