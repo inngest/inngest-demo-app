@@ -25,7 +25,8 @@ function main() {
 
   let connectionStatus = 'disconnected';
 
-  connect(inngest, {
+  connect({
+    inngest,
     functions: getFunctions(),
     instanceId: process.env.RENDER_INSTANCE_ID || 'local',
   })
