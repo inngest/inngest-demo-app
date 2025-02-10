@@ -35,20 +35,20 @@ function main() {
     inngest,
     functions: getFunctions(),
     instanceId: process.env.RENDER_INSTANCE_ID || 'local',
-  })
-    .then((connection) => {
-      console.log('Worker: connected');
-      connectionStatus = 'connected';
-      connection.closed.then(() => {
-        console.log('Worker: disconnected');
-        connectionStatus = 'disconnected';
-      });
-    })
-    .catch((err) => {
-      console.log('Worker: failed to connect', err);
-    });
+  });
 
-  console.log('DEBUG', c['options'].signingKey, c['_hashedSigningKey']);
+  c.then((connection) => {
+    console.log('Worker: connected');
+    connectionStatus = 'connected';
+    connection.closed.then(() => {
+      console.log('Worker: disconnected');
+      connectionStatus = 'disconnected';
+    });
+  }).catch((err) => {
+    console.log('Worker: failed to connect', err);
+  });
+
+  console.log('DEBUG', c['options'], c['_hashedSigningKey']);
   // Start the server for health checks
   app.listen(PORT, async () => {
     console.log(`✅ Server started on localhost:${PORT}`);
