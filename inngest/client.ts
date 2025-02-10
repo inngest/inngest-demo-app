@@ -11,6 +11,6 @@ console.log('DEBUG env=', env);
 export const inngest = new Inngest({
   id: 'demo-app',
   schemas: new EventSchemas().fromUnion<EventUnion>(),
-  env,
+  // env,
   appVersion: process.env.RENDER_GIT_COMMIT || 'local',
 });

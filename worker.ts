@@ -12,7 +12,13 @@ console.log(
   `Worker: connecting (instanceId:${instanceId}, appVersion:${inngest.appVersion})`
 );
 
-console.log('DEBUG', inngest.apiBaseUrl, inngest.eventBaseUrl);
+console.log(
+  'DEBUG',
+  inngest.apiBaseUrl,
+  inngest.eventBaseUrl,
+  inngest['eventKeySet'],
+  inngest['eventKeySet']
+);
 
 const PORT = 3030;
 
@@ -25,7 +31,7 @@ function main() {
 
   let connectionStatus = 'disconnected';
 
-  connect({
+  const c = connect({
     inngest,
     functions: getFunctions(),
     instanceId: process.env.RENDER_INSTANCE_ID || 'local',
@@ -42,6 +48,7 @@ function main() {
       console.log('Worker: failed to connect', err);
     });
 
+  console.log('DEBUG', c['options'].signingKey, c['_hashedSigningKey']);
   // Start the server for health checks
   app.listen(PORT, async () => {
     console.log(`✅ Server started on localhost:${PORT}`);
