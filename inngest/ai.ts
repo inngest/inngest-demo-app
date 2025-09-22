@@ -22,7 +22,7 @@ export const chatCompletion = inngest.createFunction(
     */
     // Here is a fake response for testing purposes
     if (Math.random() > 0.1) {
-      throw new Error(
+      throw new NonRetriableError(
         'BadRequestError: 400 Your input exceeds the context window of this model. Please adjust your input and try again.'
       );
     }
