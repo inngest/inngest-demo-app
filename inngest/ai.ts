@@ -21,6 +21,11 @@ export const chatCompletion = inngest.createFunction(
     return completion;
     */
     // Here is a fake response for testing purposes
+    if (Math.random() > 0.1) {
+      throw new Error(
+        'BadRequestError: 400 Your input exceeds the context window of this model. Please adjust your input and try again.'
+      );
+    }
     return {
       choices: [
         {
@@ -160,7 +165,10 @@ export const runimport = inngest.createFunction(
   { event: 'integrations/source.connected' },
   async ({ event, step, attempt }) => {
     if (Math.random() > 0.3) {
-      throw new NonRetriableError('Failed to import data');
+      throw new NonRetriableError('Failed to fetch user data');
+    }
+    if (Math.random() > 0.1) {
+      throw new NonRetriableError('Invalid access token');
     }
     return true;
   }
@@ -178,7 +186,7 @@ export const exportData = inngest.createFunction(
   {
     name: 'Data warehouse sync',
     id: 'export',
-    debounce: { limit: 1, period: '30s' },
+    debounce: { period: '30s' },
   },
   { event: 'integrations/export.requested' },
   async ({ event, step, attempt }) => {
