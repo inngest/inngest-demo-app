@@ -1,6 +1,7 @@
 import casual from 'casual';
 import { inngest } from './client';
 import { NonRetriableError } from 'inngest';
+import { post, get, createSpan } from '../lib/utils';
 
 // A centralized function to handle all chat completions to respect a global
 // limit for a given OpenAI API.
@@ -21,12 +22,12 @@ export const chatCompletion = inngest.createFunction(
     return completion;
     */
     // Here is a fake response for testing purposes
-    if (Math.random() > 0.1) {
+    if (Math.random() > 0.7) {
       throw new NonRetriableError(
         'BadRequestError: 400 Your input exceeds the context window of this model. Please adjust your input and try again.'
       );
     }
-    return {
+    return await post('https://api.openai.com/v1/chat/completions', 1500, {
       choices: [
         {
           finish_reason: 'stop',
@@ -47,7 +48,7 @@ export const chatCompletion = inngest.createFunction(
         prompt_tokens: 57,
         total_tokens: 74,
       },
-    };
+    });
   }
 );
 
@@ -68,6 +69,16 @@ export const summarizeContent = inngest.createFunction(
   { event: 'ai/summarize.content' },
   async ({ event, step, attempt }) => {
     const results = await step.run('query-vectordb', async () => {
+      await createSpan(
+        'INDEX SEARCH',
+        {
+          'db.host': 'gcp-124975.pinecone.io',
+          'db.namespace': 'ns1',
+          'db.query': `{ "inputs": { "text" : "${event.data.content}" }, "topK": 3 }`,
+          'db.results_count': 7,
+        },
+        65
+      );
       return {
         matches: [
           {
@@ -95,7 +106,11 @@ export const summarizeContent = inngest.createFunction(
     });
 
     const transcript = await step.run('read-s3-file', async () => {
-      return casual.sentences(10);
+      return await get(
+        'https://s3.amazonaws.com/product-ideas/carber-vac-release.txt',
+        420,
+        casual.sentences(10)
+      );
     });
 
     // We can globally share throttle limited functions like this using invoke
@@ -121,11 +136,30 @@ export const summarizeContent = inngest.createFunction(
     const summary = completion.choices[0].message.content;
 
     await step.run('save-to-db', async () => {
-      return casual.uuid;
+      const id = casual.uuid;
+      return await createSpan(
+        'INSERT',
+        {
+          'db.operation': 'INSERT',
+          'db.table': 'summaries',
+          'db.document.id': id,
+        },
+        30
+      );
+      return id;
     });
 
     await step.run('websocket-push-to-client', async () => {
-      return casual.uuid;
+      return await createSpan(
+        'receive realtime_ai',
+        {
+          'messaging.system': 'socket.io',
+          'messaging.destination': 'realtime_ai',
+          'messaging.operation': 'receive',
+          'messaging.socket.io.event_name': 'chat_message',
+        },
+        34
+      );
     });
     return { success: true, summaryId: casual.uuid };
   }

@@ -5,7 +5,7 @@ import { serve } from 'inngest/express';
 
 dotenv.config();
 
-import { getFunctions, inngest } from './inngest';
+import { getFunctions, inngest } from './inngest/index';
 
 const PORT = 3030;
 
