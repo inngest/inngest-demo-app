@@ -3,11 +3,13 @@ import * as ai from './ai';
 import * as payments from './payments';
 import * as emails from './emails';
 import * as test from './test';
+import * as rss from './rss';
 
 const functions = [
   ...Object.values(ai),
   ...Object.values(emails),
   ...Object.values(payments),
+  ...Object.values(rss)
 ];
 
 // We use a function to do this in order to dynamically add the cron test function
