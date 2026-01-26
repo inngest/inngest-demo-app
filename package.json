@@ -32,5 +32,12 @@
   "engine": {
     "node": ">=20",
     "pnpm": "10.x"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "trailingComma": "es5"
   }
 }

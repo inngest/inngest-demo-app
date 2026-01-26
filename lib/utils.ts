@@ -9,7 +9,7 @@ function sleep(duration: number) {
 export async function createSpan(
   name: string,
   attributes: Record<string, any>,
-  duration: number
+  duration: number,
 ) {
   const span = await tracer.startSpan(name, {
     attributes: attributes,
@@ -22,6 +22,13 @@ export async function createSpan(
 
 export async function get(url: string, duration: number, mockResponse: any) {
   const urlParts = new URL(url);
+  await createSpan(
+    'DNS LOOKUP',
+    {
+      'dns.lookup.name': urlParts.hostname,
+    },
+    duration / (10 - Math.random() * 5),
+  );
   await createSpan(
     'GET',
     {
@@ -38,7 +45,7 @@ export async function get(url: string, duration: number, mockResponse: any) {
       'url.scheme': urlParts.protocol,
       'user_agent.original': 'node',
     },
-    duration
+    duration,
   );
   return mockResponse;
 }
@@ -61,7 +68,7 @@ export async function post(url: string, duration: number, mockResponse: any) {
       'url.scheme': urlParts.protocol,
       'user_agent.original': 'node',
     },
-    duration
+    duration,
   );
   return mockResponse;
 }
