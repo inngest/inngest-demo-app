@@ -80,6 +80,16 @@ type ExportRequested = {
   data: {};
 };
 
+type RssFetchFeed = {
+  name: 'rss/fetch-feed';
+  data: { url?: string };
+};
+
+type RssStoryFetched = {
+  name: 'rss/story-fetched';
+  data: { title: string; link: string; description: string; pubDate?: string; feedUrl: string };
+};
+
 // Scripts use this type externally
 export type EventUnion =
   | AppAccountCreated
@@ -92,7 +102,9 @@ export type EventUnion =
   | AIVideoUploaded
   | ImportSourceConnected
   | ImportSourceRemoved
-  | ExportRequested;
+  | ExportRequested
+  | RssFetchFeed
+  | RssStoryFetched;
 
 // A simple way to pass events without having to re-type the event name
 type CustomEvents<T extends Record<keyof T, any>> = {
