@@ -21,8 +21,8 @@ importers:
         specifier: ^4.19.2
         version: 4.21.2
       inngest:
-        specifier: ^3.46.0
-        version: 3.46.0(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(express@4.21.2)(typescript@5.9.3)(zod@4.1.13)
+        specifier: ^3.49.3
+        version: 3.49.3(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(express@4.21.2)(typescript@5.9.3)(zod@4.1.13)
     devDependencies:
       '@types/express':
         specifier: ^4.17.17
@@ -1036,8 +1036,8 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
-  inngest@3.46.0:
-    resolution: {integrity: sha512-1cbUe682WVx4I3sSrqqj44UoSEEtk6U4VR6ZPfpqfi/30kxNoLnMTiiQJx+RYfH+leVMryum6wdnYabBo2hjaw==}
+  inngest@3.49.3:
+    resolution: {integrity: sha512-JH4VBcxmBh7J0QIk28yYNSlBs1q2wnlds20Sj4a1m8RXRSfDh+z6+Lq+WVpaHH0XolsPYwkRwUA9Gf540AcBmg==}
     engines: {node: '>=20'}
     peerDependencies:
       '@sveltejs/kit': '>=1.27.3'
@@ -2570,7 +2570,7 @@ snapshots:
 
   inherits@2.0.4: {}
 
-  inngest@3.46.0(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(express@4.21.2)(typescript@5.9.3)(zod@4.1.13):
+  inngest@3.49.3(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))(express@4.21.2)(typescript@5.9.3)(zod@4.1.13):
     dependencies:
       '@bufbuild/protobuf': 2.10.1
       '@inngest/ai': 0.1.7
@@ -2584,6 +2584,7 @@ snapshots:
       '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
       '@standard-schema/spec': 1.0.0
       '@types/debug': 4.1.12
+      '@types/ms': 2.1.0
       canonicalize: 1.0.8
       chalk: 4.1.2
       cross-fetch: 4.1.0

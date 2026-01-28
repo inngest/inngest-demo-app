@@ -21,7 +21,7 @@
     "casual": "^1.6.2",
     "dotenv": "^16.0.3",
     "express": "^4.19.2",
-    "inngest": "^3.46.0"
+    "inngest": "^3.49.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",

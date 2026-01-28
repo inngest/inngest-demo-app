@@ -7,4 +7,7 @@ export const inngest = new Inngest({
   schemas: new EventSchemas().fromUnion<EventUnion>(),
   env: process.env.RENDER_GIT_BRANCH,
   middleware: [extendedTracesMiddleware()],
+  checkpointing: {
+    maxRuntime: '4m',
+  },
 });
