@@ -1,5 +1,4 @@
 import { inngest } from '../inngest';
-import type { EventUnion, Events } from '../inngest/events';
 import casual from 'casual';
 
 // We re-use user ids to ensure that some users have multiple events
@@ -22,8 +21,20 @@ const BILLING_PLANS: Record<string, number> = {
   enterprise: 1000,
 };
 
-type EventNames = Pick<EventUnion, 'name'>['name'];
-const EVENTS: EventNames[] = [
+type EventName =
+  | 'app/account.created'
+  | 'billing/payment.failed'
+  | 'billing/payment.succeeded'
+  | 'billing/subscription.started'
+  | 'billing/subscription.cancelled'
+  | 'ai/chat.completion'
+  | 'ai/summarize.content'
+  | 'ai/video.uploaded'
+  | 'integrations/source.connected'
+  | 'integrations/source.removed'
+  | 'integrations/export.requested';
+
+const EVENTS: EventName[] = [
   'app/account.created',
   // 'billing/payment.succeeded',
   'billing/payment.failed',
@@ -36,10 +47,8 @@ const EVENTS: EventNames[] = [
   'ai/video.uploaded',
 ];
 
-function createRandomEventData<Evt, T extends EventNames>(
-  name: T
-): Pick<Events[T], 'data'>['data'] {
-  const billingPlan: keyof typeof BILLING_PLANS = casual.random_element(
+function createRandomEventData(name: EventName): Record<string, unknown> {
+  const billingPlan: string = casual.random_element(
     Object.keys(BILLING_PLANS)
   );
   switch (name) {
@@ -74,12 +83,10 @@ function createRandomEventData<Evt, T extends EventNames>(
     case 'integrations/source.connected':
     case 'integrations/source.removed':
     case 'integrations/export.requested':
-      return {
-        content: `${casual.company_name} ${casual.word} ${casual.word}`,
-        transcript: 's3://product-ideas/carber-vac-release.txt',
-      };
+      return {};
+    default:
+      return {};
   }
-  throw new Error('Invalid event name');
 }
 
 function generateRandomTimestampWithinDays(days = 1): number {
@@ -89,14 +96,16 @@ function generateRandomTimestampWithinDays(days = 1): number {
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   ).valueOf();
 }
+
 type RandomEvent = {
   name: string;
-  data: any;
-  user?: any;
+  data: Record<string, unknown>;
+  user?: Record<string, unknown>;
   ts?: number;
 };
+
 function createRandomEvent(eventName?: string, shouldDelay = true) {
-  const name: EventNames = eventName || casual.random_element(EVENTS);
+  const name: EventName = eventName as EventName || casual.random_element(EVENTS);
   const data = createRandomEventData(name);
   const payload: RandomEvent = {
     name,
@@ -123,7 +132,7 @@ export function createEvents(
   return events;
 }
 
-export async function send(events: any[]) {
+export async function send(events: { name: string; data: Record<string, unknown>; ts?: number }[]) {
   try {
     await inngest.send(events);
   } catch (err) {

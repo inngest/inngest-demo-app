@@ -2,6 +2,14 @@ import casual from 'casual';
 import { inngest } from './client';
 import { NonRetriableError } from 'inngest';
 import { post, get, createSpan } from '../lib/utils';
+import {
+  aiChatCompletion,
+  aiSummarizeContent,
+  aiVideoUploaded,
+  importSourceConnected,
+  importSourceRemoved,
+  exportRequested,
+} from './events';
 
 // A centralized function to handle all chat completions to respect a global
 // limit for a given OpenAI API.
@@ -10,8 +18,8 @@ export const chatCompletion = inngest.createFunction(
     name: 'Create chat completion',
     id: 'create-chat-completion',
     throttle: { limit: 5, period: '60s' },
+    triggers: [aiChatCompletion],
   },
-  { event: 'ai/chat.completion' },
   async ({ event, step }) => {
     /* You might use the OpenAI API like this here:
     const completion = await openai.chat.completions.create({
@@ -65,8 +73,8 @@ export const summarizeContent = inngest.createFunction(
   {
     name: 'Summarize content via GPT-4',
     id: 'summarize-content',
+    triggers: [aiSummarizeContent],
   },
-  { event: 'ai/summarize.content' },
   async ({ event, step, attempt }) => {
     const results = await step.run('query-vectordb', async () => {
       await createSpan(
@@ -137,7 +145,7 @@ export const summarizeContent = inngest.createFunction(
 
     await step.run('save-to-db', async () => {
       const id = casual.uuid;
-      return await createSpan(
+      await createSpan(
         'INSERT',
         {
           'db.operation': 'INSERT',
@@ -184,8 +192,11 @@ export const summarizeContent = inngest.createFunction(
 // );
 
 export const generateTranscript = inngest.createFunction(
-  { name: 'Generate video transcript', id: 'generate-transcript' },
-  { event: 'ai/video.uploaded' },
+  {
+    name: 'Generate video transcript',
+    id: 'generate-transcript',
+    triggers: [aiVideoUploaded],
+  },
   async ({ event, step, attempt }) => {
     await step.run('generate-summary-via-gpt-4', async () => {
       return {
@@ -215,8 +226,11 @@ export const generateTranscript = inngest.createFunction(
 );
 
 export const runimport = inngest.createFunction(
-  { name: 'Import data pipeline', id: 'import-data' },
-  { event: 'integrations/source.connected' },
+  {
+    name: 'Import data pipeline',
+    id: 'import-data',
+    triggers: [importSourceConnected],
+  },
   async ({ event, step, attempt }) => {
     if (Math.random() > 0.3) {
       throw new NonRetriableError('Failed to fetch user data');
@@ -229,8 +243,11 @@ export const runimport = inngest.createFunction(
 );
 
 export const sourceremoved = inngest.createFunction(
-  { name: 'Delete integration data', id: 'cleanup-data' },
-  { event: 'integrations/source.removed' },
+  {
+    name: 'Delete integration data',
+    id: 'cleanup-data',
+    triggers: [importSourceRemoved],
+  },
   async ({ event, step, attempt }) => {
     return true;
   },
@@ -241,8 +258,8 @@ export const exportData = inngest.createFunction(
     name: 'Data warehouse sync',
     id: 'export',
     debounce: { period: '30s' },
+    triggers: [exportRequested],
   },
-  { event: 'integrations/export.requested' },
   async ({ event, step, attempt }) => {
     await step.sleep('delay', '2m');
     return true;

@@ -1,104 +1,60 @@
-export type AppAccountCreated = {
-  name: 'app/account.created';
-  data: {
-    email: string;
-    userId: string;
-  };
-};
+import { eventType, staticSchema } from 'inngest';
 
-export type BillingPaymentFailed = {
-  name: 'billing/payment.failed';
-  data: {
+export const appAccountCreated = eventType('app/account.created', {
+  schema: staticSchema<{ email: string; userId: string }>(),
+});
+
+export const billingPaymentFailed = eventType('billing/payment.failed', {
+  schema: staticSchema<{
     billingPlan: string;
     paymentId: string;
     reason: string;
     userId: string;
-  };
-};
+  }>(),
+});
 
-export type BillingPaymentSucceeded = {
-  name: 'billing/payment.succeeded';
-  data: {
+export const billingPaymentSucceeded = eventType('billing/payment.succeeded', {
+  schema: staticSchema<{
     billingPlan: string;
     paymentId: string;
     amount: number;
     userId: string;
-  };
-};
+  }>(),
+});
 
-export type BillingSubscriptionStarted = {
-  name: 'billing/subscription.started';
-  data: {
-    billingPlan: string;
-    amount: number;
-    userId: string;
-  };
-};
+export const billingSubscriptionStarted = eventType(
+  'billing/subscription.started',
+  {
+    schema: staticSchema<{
+      billingPlan: string;
+      amount: number;
+      userId: string;
+    }>(),
+  }
+);
 
-export type BillingSubscriptionCancelled = {
-  name: 'billing/subscription.cancelled';
-  data: {
-    billingPlan: string;
-    amount: number;
-    userId: string;
-  };
-};
+export const billingSubscriptionCancelled = eventType(
+  'billing/subscription.cancelled',
+  {
+    schema: staticSchema<{
+      billingPlan: string;
+      amount: number;
+      userId: string;
+    }>(),
+  }
+);
 
-export type AIChatCompletion = {
-  name: 'ai/chat.completion';
-  data: {
-    messages: {
-      role: 'system' | 'user' | 'assistant';
-      content: string;
-    }[];
-  };
-};
+export const aiChatCompletion = eventType('ai/chat.completion', {
+  schema: staticSchema<{
+    messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
+  }>(),
+});
 
-export type AISummarizeContent = {
-  name: 'ai/summarize.content';
-  data: {
-    content: string;
-    transcript: string;
-  };
-};
+export const aiSummarizeContent = eventType('ai/summarize.content', {
+  schema: staticSchema<{ content: string; transcript: string }>(),
+});
 
-export type AIVideoUploaded = {
-  name: 'ai/video.uploaded';
-  data: {};
-};
-
-export type ImportSourceConnected = {
-  name: 'integrations/source.connected';
-  data: {};
-};
-export type ImportSourceRemoved = {
-  name: 'integrations/source.removed';
-  data: {};
-};
-type ExportRequested = {
-  name: 'integrations/export.requested';
-  data: {};
-};
-
-// Scripts use this type externally
-export type EventUnion =
-  | AppAccountCreated
-  | BillingPaymentFailed
-  | BillingPaymentSucceeded
-  | BillingSubscriptionStarted
-  | BillingSubscriptionCancelled
-  | AIChatCompletion
-  | AISummarizeContent
-  | AIVideoUploaded
-  | ImportSourceConnected
-  | ImportSourceRemoved
-  | ExportRequested;
-
-// A simple way to pass events without having to re-type the event name
-type CustomEvents<T extends Record<keyof T, any>> = {
-  [V in T[keyof T]]: {
-    [K in keyof T]: T[K] extends V ? T : never;
-  }[keyof T];
-};
-
-export type Events = CustomEvents<EventUnion>;
+export const aiVideoUploaded = eventType('ai/video.uploaded');
+export const importSourceConnected = eventType('integrations/source.connected');
+export const importSourceRemoved = eventType('integrations/source.removed');
+export const exportRequested = eventType('integrations/export.requested');

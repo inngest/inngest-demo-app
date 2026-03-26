@@ -1,9 +1,18 @@
 import casual from 'casual';
 import { inngest } from './client';
+import {
+  billingPaymentFailed,
+  billingPaymentSucceeded,
+  billingSubscriptionStarted,
+  billingSubscriptionCancelled,
+} from './events';
 
 export const handleFailedPayments = inngest.createFunction(
-  { name: 'Handle failed payments', id: 'handle-failed-payments' },
-  { event: 'billing/payment.failed' },
+  {
+    name: 'Handle failed payments',
+    id: 'handle-failed-payments',
+    triggers: [billingPaymentFailed],
+  },
   async ({ event, step, attempt }) => {
     // await step.run('step-1', async () => {
     //   if (attempt <= 4) {
@@ -35,8 +44,11 @@ export const handleFailedPayments = inngest.createFunction(
 );
 
 export const sendBillingReceipt = inngest.createFunction(
-  { name: 'Send billing receipt', id: 'send-billing-receipt' },
-  { event: 'billing/payment.succeeded' },
+  {
+    name: 'Send billing receipt',
+    id: 'send-billing-receipt',
+    triggers: [billingPaymentSucceeded],
+  },
   async ({ event }) => {
     return {
       success: true,
@@ -46,8 +58,11 @@ export const sendBillingReceipt = inngest.createFunction(
 );
 
 export const sendSlackNotification = inngest.createFunction(
-  { name: 'Send Slack notification', id: 'send-slack-notification' },
-  { event: 'billing/subscription.started' },
+  {
+    name: 'Send Slack notification',
+    id: 'send-slack-notification',
+    triggers: [billingSubscriptionStarted],
+  },
   async ({ event }) => {
     return {
       success: true,
@@ -57,8 +72,11 @@ export const sendSlackNotification = inngest.createFunction(
 );
 
 export const sendOfferDiscountForFeedback = inngest.createFunction(
-  { name: 'Send discount offer for user feedback', id: 'send-discount-offer' },
-  { event: 'billing/subscription.cancelled' },
+  {
+    name: 'Send discount offer for user feedback',
+    id: 'send-discount-offer',
+    triggers: [billingSubscriptionCancelled],
+  },
   async ({ event }) => {
     return {
       success: true,

@@ -1,9 +1,13 @@
+import { cron } from 'inngest';
 import { inngest } from './client';
 import { send, createEvents } from '../lib/testEvents';
 
 export const sendTestEvents = inngest.createFunction(
-  { name: 'Send test events', id: 'send-test-events' },
-  { cron: '*/10 * * * *' },
+  {
+    name: 'Send test events',
+    id: 'send-test-events',
+    triggers: [cron('*/10 * * * *')],
+  },
   async ({ step }) => {
     const n = 14;
 
